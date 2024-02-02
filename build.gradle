@@ -53,7 +53,7 @@ plugins {
     id 'com.diffplug.spotless' version '6.13.0' apply false // 6.13.0 is the last jvm8 supporting version
     id 'com.modrinth.minotaur' version '2.+' apply false
     id 'com.matthewprenger.cursegradle' version '1.4.0' apply false
-    id 'com.gtnewhorizons.retrofuturagradle' version '1.3.27'
+    id 'com.gtnewhorizons.retrofuturagradle' version '1.3.31'
 }
 
 print("You might want to check out './gradlew :faq' if your build fails.\n")
@@ -633,7 +633,7 @@ repositories {
         }
         maven {
             name = "ic2"
-            url = getURL("https://maven2.ic2.player.to/", "https://maven.ic2.player.to/")
+            url = modUtils.getLiveMirrorURL(10_000, "https://maven2.ic2.player.to/", "https://maven.ic2.player.to/")
             content {
                 includeGroup "net.industrial-craft"
             }
@@ -1588,25 +1588,6 @@ def getSecondaryArtifacts() {
     if (!noPublishedSources) secondaryArtifacts += [sourcesJar]
     if (apiPackage) secondaryArtifacts += [apiJar]
     return secondaryArtifacts
-}
-
-def getURL(String main, String fallback) {
-    return pingURL(main, 10000) ? main : fallback
-}
-
-// credit: https://stackoverflow.com/a/3584332
-def pingURL(String url, int timeout) {
-    url = url.replaceFirst("^https", "http") // Otherwise an exception may be thrown on invalid SSL certificates.
-    try {
-        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection()
-        connection.setConnectTimeout(timeout)
-        connection.setReadTimeout(timeout)
-        connection.setRequestMethod("HEAD")
-        int responseCode = connection.getResponseCode()
-        return 200 <= responseCode && responseCode <= 399
-    } catch (IOException ignored) {
-        return false
-    }
 }
 
 // For easier scripting of things that require variables defined earlier in the buildscript
