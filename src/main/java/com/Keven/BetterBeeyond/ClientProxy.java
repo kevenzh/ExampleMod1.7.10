@@ -1,4 +1,4 @@
-package com.myname.mymodid;
+package com.Keven.BetterBeeyond;
 
 public class ClientProxy extends CommonProxy {
 

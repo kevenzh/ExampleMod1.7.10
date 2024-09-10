@@ -1,4 +1,4 @@
-package com.myname.mymodid;
+package com.Keven.BetterBeeyond;
 
 import java.io.File;
 
